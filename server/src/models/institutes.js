@@ -5,6 +5,7 @@ const schema = mongoose.Schema;
 const institutes = new schema({
     name: String,
     email: String,
+    address: String,
     phone: String,
     password: String
 });
