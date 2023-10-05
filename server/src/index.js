@@ -8,9 +8,11 @@ const mongoose = require('mongoose');
 
 const Institute = require('./models/institutes');
 
-// const Work = require('./models/projects');
-
 const Space = require('./models/spaces');
+
+const User = require('./models/users');
+
+const Work = require('./models/projects');
 
 
 const app = express();
@@ -21,6 +23,8 @@ app.use(cors());
 
 //adding a middleware function to convert data to json format
 app.use(express.json());
+
+/* ###################################### POST REQUESTS ############################################################################*/
 
 // ------------------------------------Admin Registration API-----------------------------------------//
 //define api for new institute/admin creation
@@ -38,6 +42,34 @@ app.post('/newAdmin',async(req, res)=>{
     // res.json(Admin);
 });
 
+
+app.post('/newUser', async(req, res)=>{
+    const update = {
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        password: req.body.password,
+        category: req.body.category,
+        institute: req.body.institute
+    }
+    try{
+        if(req.body.category=="Student") {
+            update['student_id'] = req.body.student_id;
+            const newUser = new User(update)
+            await newUser.save();
+            res.status(200).json(newUser);
+        }
+        else if(req.body.category=="Teacher") {
+            const newUser = new User(update)
+            await newUser.save();
+            res.status(200).json(newUser);
+        }
+        
+    }catch (error){
+        console.error(error);
+        return res.status(500).send('Internal Server Error');
+    }
+})
 
 // ------------------------------------Supervisor Registration API-----------------------------------------//
 
@@ -120,24 +152,16 @@ app.post('/newStudent',async(req, res)=>{
 app.post('/uploadWork',async(req, res)=>{
     console.log(req.body);
 
-    // Here we will get request for the user category i.e student or supervisor
-    // And put condition for the two types of update objects  
-
-    //for students work
-    const update1 = {
-        title: req.body.title,
-        supervisor: req.body.supervisor,
+    const update = {
+        title: req.body.title,                              
         team:req.body.team,
         description: req.body.description,
-        files: req.body.files
+        files: req.body.files,
+        email: req.body.email,
+        ratings: [],
+        reviews: []
     };
-    //for supervisors work
-    const update2 = {
-        title: req.body.title,
-        team:req.body.team,
-        description: req.body.description,
-        files: req.body.files
-    };
+    const {title, team, supervisor, description, files, email, category, institute} = req.body;
 
     try{
         const spaceName = await Space.findOne({"name":req.body.institute}).exec();
@@ -148,12 +172,17 @@ app.post('/uploadWork',async(req, res)=>{
             spaceName.projects = {};
         }
         if(req.body.category=="Student"){
+            const newProject = new Work({title, team, supervisor, description, files, email, category, institute})
+            await newProject.save();
             if(!spaceName.projects.students) spaceName.projects.students={};
-            spaceName.projects.students[req.body.email] = update1;
+            update.supervisor = req.body.supervisor;
+            spaceName.projects.students[newProject._id] = update;
         }
         else if(req.body.category=="Teacher") {
+            const newProject = new Work({title, team, description, files, email, category, institute})
+            await newProject.save();
             if(!spaceName.projects.supervisors) spaceName.projects.supervisors={};
-            spaceName.projects.supervisors[req.body.email] = update2;
+            spaceName.projects.supervisors[newProject._id] = update;
         }
         /*By default, Mongoose does not track changes to subdocuments (including objects within an object)
         and automatically save them to the database. When you push an item to an array, Mongoose tracks
@@ -182,12 +211,31 @@ app.post('/newSpace',async(req, res)=>{
     const newSpace = new Space({
         name: req.body.name,
         // students: [[]],
-        supervisors: {placeholder: null},
-        projects: {placeholder: null}
+        // supervisors: {placeholder: null},
+        // projects: {placeholder: null}
     });
     console.log(newSpace.students)
     const createdSpace = await newSpace.save();
     res.json(createdSpace);
+});
+
+/* ############################################ GET REQUESTS #############################################################################*/
+
+//---------------------------Login---------------------------//
+app.get("/userData", async(req, res)=>{
+    const loginCreds = {
+        email: req.body.email,
+        password: req.body.password
+    }
+    const userInfo = await User.findOne(loginCreds).exec();
+    if(!userInfo) return res.status(404).send('User not found.');
+    res.status(200).json(userInfo);
+});
+
+
+//------------------------Project Works----------------------//
+app.get("/projects",(req, res)=>{
+
 })
 
 //connect to mongodb cluster in atlas

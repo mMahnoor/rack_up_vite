@@ -15,7 +15,7 @@ const spaces = new schema({
   },
   projects: {
     type: Object,
-    default: {}
+    default: {placeholder: null}
   }
 });
 
