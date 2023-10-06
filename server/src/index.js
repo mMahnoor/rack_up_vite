@@ -14,6 +14,8 @@ const User = require('./models/users');
 
 const Work = require('./models/projects');
 
+const Review = require('./models/reviews');
+
 
 const app = express();
 
@@ -151,16 +153,18 @@ app.post('/newStudent',async(req, res)=>{
 //define api for new project work upload
 app.post('/uploadWork',async(req, res)=>{
     console.log(req.body);
+    const currentDate = new Date();
 
-    const update = {
-        title: req.body.title,                              
-        team:req.body.team,
-        description: req.body.description,
-        files: req.body.files,
-        email: req.body.email,
-        ratings: [],
-        reviews: []
-    };
+    // const update = {
+    //     title: req.body.title,                              
+    //     team:req.body.team,
+    //     description: req.body.description,
+    //     files: req.body.files,
+    //     email: req.body.email,
+    //     uploadedAt: currentDate,
+    //     ratings: [],
+    //     reviews: []
+    // };
     const {title, team, supervisor, description, files, email, category, institute} = req.body;
 
     try{
@@ -176,7 +180,7 @@ app.post('/uploadWork',async(req, res)=>{
             await newProject.save();
             if(!spaceName.projects.students) spaceName.projects.students={};
             update.supervisor = req.body.supervisor;
-            spaceName.projects.students[newProject._id] = update;
+            spaceName.projects.students[req.body.email] = newProject._id;
         }
         else if(req.body.category=="Teacher") {
             const newProject = new Work({title, team, description, files, email, category, institute})
@@ -218,6 +222,31 @@ app.post('/newSpace',async(req, res)=>{
     const createdSpace = await newSpace.save();
     res.json(createdSpace);
 });
+
+//-------------------------Post a Review------------------------//
+app.post('/reviews', async(req, res) => {
+    const { projectId, userId, rating, reviewText } = req.body;
+
+  try {
+    const newReview = new Review({ projectId, userId, rating, reviewText });
+    const savedReview = await newReview.save();
+
+    const project = await Work.findById(req.body.projectId).exec();
+    if(!project) return res.status(404).send("project not found");
+    if(!project.ratings){
+        project.ratings=[];
+    }
+    if(!project.reviews) project.reviews=[];
+    project.ratings.push(req.body.rating);
+    project.reviews.push(req.body.reviewText);
+
+    const rate_review = await project.save();
+
+    res.json(rate_review);
+  } catch (error) {
+    res.status(500).json({ error: 'Error creating review' });
+  }
+})
 
 /* ############################################ GET REQUESTS #############################################################################*/
 

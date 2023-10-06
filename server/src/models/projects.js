@@ -7,9 +7,15 @@ const works = new schema({
     team: Array,
     description: String,
     files: Array,
+    ratings: Array,
+    reviews: Array,
     email: String,
     category: String,
-    institute: String
+    institute: String,
+    uploadedAt: {
+        type: Date, 
+        default: Date.now 
+    }
 }, {strict : false});
 
 const newWork = mongoose.model('Projects', works);
