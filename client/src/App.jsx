@@ -1,16 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, Navigate } from "react-router-dom";
+import { Navbar } from '@/components'
+import routes from "@/routes";
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <h1 className="text-3xl font-bold underline">
-      Hello world!
-      </h1>
+      <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
+        <Navbar routes={routes} />
+      </div>
+      <Routes>
+        {routes.map(
+          ({ path, element }, key) =>
+            element && <Route key={key} exact path={path} element={element} />
+        )}
+        <Route path="*" element={<Navigate to="/home" replace />} />
+      </Routes>  
     </>
   )
 }
