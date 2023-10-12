@@ -3,7 +3,7 @@ import { Typography, IconButton } from "@material-tailwind/react";
 
 const year = new Date().getFullYear();
 
-export function Footer({ brandName, description, socials, menus, copyright }) {
+export function Footer({ brandName, description, socials, copyright }) {
   return (
     <footer className="relative px-4 pt-8 pb-6">
       <div className="container mx-auto">
@@ -69,7 +69,7 @@ Footer.defaultProps = {
         },
         {
           color: "light-blue",
-          name: "twitter",
+          name: "youtube",
           path: "",
         }
     ],
