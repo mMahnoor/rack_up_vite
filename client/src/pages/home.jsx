@@ -1,13 +1,7 @@
 import React from "react";
 import {
-  Card,
-  CardBody,
-  CardHeader,
   Typography,
-  Button,
-  IconButton,
 } from "@material-tailwind/react";
-
 import { Footer } from "@/components";
 import { FeatureCard } from "@/widgets/cards";
 import { featuresData } from "@/data";
@@ -52,6 +46,7 @@ export function Home() {
           </div>
         </div>
       </section>
+
       <div className="bg-blue-gray-50/50">
         <Footer />
       </div>
