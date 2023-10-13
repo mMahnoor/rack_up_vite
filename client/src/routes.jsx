@@ -1,4 +1,4 @@
-import { Home, SignIn, SignUp } from "@/pages";
+import { Home, SignIn, SignUp, Spaces } from "@/pages";
 import {
   HomeIcon,
   CloudIcon,
@@ -17,8 +17,7 @@ export const routes = [
     icon: CloudIcon,
     name: "Spaces",
     path: "/spaces",
-    target: "_blank",
-    element: "",
+    element: <Spaces />,
   },
   {
     icon: ArrowRightOnRectangleIcon,
