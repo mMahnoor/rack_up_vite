@@ -20,6 +20,27 @@ export function Navbar({ brandName, routes, action }) {
     );
   }, []);
 
+  //for sticky navbar
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const navbar = document.querySelector('.sticky-navbar');
+
+      if (window.scrollY > 0) {
+        navbar.classList.remove('bg-transparent');
+        navbar.classList.add('bg-black/50'); // Set the desired background color here
+      } else {
+        navbar.classList.remove('bg-black/50'); // Remove the background color class
+        navbar.classList.add('bg-transparent');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       {routes.map(({ name, path, icon, href, target }) => (
@@ -61,7 +82,7 @@ export function Navbar({ brandName, routes, action }) {
   );
 
   return (
-    <MTNavbar color="transparent" className="sticky top-0 z-10 h-max max-w-full rounded-none py-2 px-2 lg:px-8 lg:py-4">
+    <MTNavbar color="transparent" className="sticky-navbar bg-transparent fixed top-0 z-10 h-max max-w-full rounded-none py-2 px-2 lg:px-8 lg:py-4 transition duration-300">
       <div className="container mx-auto flex items-center justify-between text-white">
         <Link to="/">
           <Typography className="mr-4 ml-2 cursor-pointer py-1.5 font-bold">
@@ -114,7 +135,7 @@ Navbar.defaultProps = {
   ),
   action: (
     <Button variant="gradient" size="sm" fullWidth>
-      Explore now
+      Quick review
     </Button>
    
   ),
