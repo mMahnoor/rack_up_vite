@@ -4,11 +4,7 @@ const express = require('express');
 
 const cors = require('cors');
 
-const mongoose = require('mongoose');
-
 const app = express();
-
-const port = 5000;
 
 const routes = require("./api/routes");
 
@@ -16,6 +12,9 @@ app.use(cors());
 
 //adding a middleware function to convert data to json format
 app.use(express.json());
+
+const connectDB = require("./config/connectMongo");
+connectDB();
 
 app.use('/', routes.adminRoutes);
 app.use('/', routes.userRoutes);
@@ -25,10 +24,8 @@ app.use('/', routes.projectsRoutes);
 // app.get("/projects",(req, res)=>{
 
 // })
+const PORT = process.env.PORT;
 
-//connect to mongodb cluster in atlas
-mongoose.connect(process.env.MONGO_URL).then(()=>{
-    app.listen(port, ()=>{
-        console.log(`App is listening to port: ${port}`)
-    });}
-)
+app.listen(PORT, () => {
+    console.log(`App listening to port ${PORT}`);
+})
