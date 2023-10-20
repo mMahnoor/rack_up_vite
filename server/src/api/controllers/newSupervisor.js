@@ -9,7 +9,7 @@ exports.newSupervisor = async(req, res)=>{
         password: req.body.password
     };
     try{
-        const spaceName = await models.Spaces.findOne({"name":req.body.institute}).exec();
+        const spaceName = await models.Institutes.findOne({"name":req.body.institute}).exec();
         console.log(spaceName);
         if(!spaceName) return res.status(404).send("Space not found");
 
