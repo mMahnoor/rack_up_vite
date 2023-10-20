@@ -11,16 +11,20 @@ exports.newStudent = async(req, res)=>{
      };
     try {
         // Find a document based on the "institute" field
-        const spaceName = await models.Spaces.findOne({"name": req.body.institute}).exec();
+        const spaceName = await models.Institutes.findOne({"name": req.body.institute}).exec();
         
         if (!spaceName) {
           return res.status(404).send('Space not found');
         }
     
+        if (!spaceName.students) {
+            spaceName.students = {};
+          }
         // Add the new object to the "students" array field
         // spaceName.students = update;
-        spaceName.students.push(update);
+        spaceName.students[req.body.email] = update;
 
+        spaceName.markModified('students');
         // Save the updated space document
         const newStudent = await spaceName.save();
 

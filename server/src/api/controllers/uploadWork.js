@@ -6,7 +6,7 @@ exports.uploadWork = async(req, res)=>{
     const {title, team, supervisor, description, files, email, category, institute} = req.body;
 
     try{
-        const spaceName = await models.Spaces.findOne({"name":req.body.institute}).exec();
+        const spaceName = await models.Institutes.findOne({"name":req.body.institute}).exec();
         
         if(!spaceName) return res.status(404).send("Space not found");
 
@@ -19,11 +19,11 @@ exports.uploadWork = async(req, res)=>{
             if(!spaceName.projects.students) spaceName.projects.students={};
             spaceName.projects.students[req.body.email] = newProject._id;
         }
-        else if(req.body.category=="Teacher") {
+        else if(req.body.category=="Supervisor") {
             const newProject = new models.Projects({title, team, description, files, email, category, institute})
             await newProject.save();
             if(!spaceName.projects.supervisors) spaceName.projects.supervisors={};
-            spaceName.projects.supervisors[newProject._id] = update;
+            spaceName.projects.supervisors[req.body.email] = newProject._id;
         }
         /*By default, Mongoose does not track changes to subdocuments (including objects within an object)
         and automatically save them to the database. When you push an item to an array, Mongoose tracks
