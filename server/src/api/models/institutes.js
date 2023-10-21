@@ -7,7 +7,19 @@ const institutes = new schema({
     email: String,
     address: String,
     phone: String,
-    password: String
+    password: String,
+    students: {
+        type: Object,
+        default: {placeholder: null}
+    },
+    supervisors: {
+        type: Object,
+        default: {placeholder: null}
+    },
+    projects: {
+        type: Object,
+        default: {placeholder: null}
+    }
 });
 
 const institutes_model = mongoose.model('Institutes', institutes);

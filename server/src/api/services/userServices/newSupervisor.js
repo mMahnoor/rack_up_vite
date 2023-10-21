@@ -1,4 +1,4 @@
-const models = require("../models");
+const models = require("../../models");
 
 exports.newSupervisor = async(req, res)=>{
     console.log(req.body);

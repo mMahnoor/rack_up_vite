@@ -1,4 +1,4 @@
-const models = require("../models");
+const models = require("../../models");
 
 exports.uploadWork = async(req, res)=>{
     console.log(req.body);
@@ -17,13 +17,13 @@ exports.uploadWork = async(req, res)=>{
             const newProject = new models.Projects({title, team, supervisor, description, files, email, category, institute})
             await newProject.save();
             if(!spaceName.projects.students) spaceName.projects.students={};
-            spaceName.projects.students[req.body.email] = newProject._id;
+            spaceName.projects.students[req.body.email] = newProject;
         }
         else if(req.body.category=="Supervisor") {
             const newProject = new models.Projects({title, team, description, files, email, category, institute})
             await newProject.save();
             if(!spaceName.projects.supervisors) spaceName.projects.supervisors={};
-            spaceName.projects.supervisors[req.body.email] = newProject._id;
+            spaceName.projects.supervisors[req.body.email] = newProject;
         }
         /*By default, Mongoose does not track changes to subdocuments (including objects within an object)
         and automatically save them to the database. When you push an item to an array, Mongoose tracks

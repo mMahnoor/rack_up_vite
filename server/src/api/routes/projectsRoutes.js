@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const controllers = require("../controllers");
+const services = require("../services");
 const middleware = require("../middlewares");
 
 // ------------------------------------Project Upload API-----------------------------------------//
 
-router.post('/uploadWork', middleware.JWT.validateToken, controllers.uploadWork.uploadWork);
+router.post('/uploadWork', middleware.JWT.validateToken, services.uploadWork.uploadWork);
 
 //-------------------------Post a Review------------------------//
-router.post('/reviews', middleware.JWT.validateToken, controllers.reviews.reviews);
+router.post('/reviews', middleware.JWT.validateToken, services.reviews.reviews);
 
 module.exports = router;
 

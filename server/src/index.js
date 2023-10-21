@@ -22,11 +22,8 @@ connectDB();
 app.use('/', routes.adminRoutes);
 app.use('/', routes.userRoutes);
 app.use('/', routes.projectsRoutes);
+app.use('/', routes.commonRoutes);
 
-//------------------------Project Works----------------------//
-// app.get("/projects",(req, res)=>{
-
-// })
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {

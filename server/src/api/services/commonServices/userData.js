@@ -1,5 +1,5 @@
-const models = require("../models");
-const middleware = require("../middlewares");
+const models = require("../../models");
+const middleware = require("../../middlewares");
 
 exports.userData = async(req, res)=>{
     const loginCreds = {

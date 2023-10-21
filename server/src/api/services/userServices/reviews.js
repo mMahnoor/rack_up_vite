@@ -1,4 +1,4 @@
-const models = require("../models");
+const models = require("../../models");
 
 exports.reviews = async(req, res) => {
     const { projectId, userId, rating, reviewText } = req.body;

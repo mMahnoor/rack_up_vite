@@ -5,18 +5,7 @@ const schema = mongoose.Schema;
 
 const spaces = new schema({
   name: String,
-  students: {
-    type: Array,
-    default: [[]]
-  },
-  supervisors: {
-    type: Object,
-    default: {placeholder: null}
-  },
-  projects: {
-    type: Object,
-    default: {placeholder: null}
-  }
+  description: String,
 });
 
 const spaces_model = mongoose.model('Spaces', spaces)

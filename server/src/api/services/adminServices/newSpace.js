@@ -1,4 +1,4 @@
-const models = require("../models");
+const models = require("../../models");
 
 exports.newSpace = async(req, res)=>{
     console.log(req.body);
@@ -9,7 +9,7 @@ exports.newSpace = async(req, res)=>{
         // supervisors: {placeholder: null},
         // projects: {placeholder: null}
     });
-    console.log(newSpace.students)
+    // console.log(newSpace.students)
     const createdSpace = await newSpace.save();
     res.json(createdSpace);
 }
