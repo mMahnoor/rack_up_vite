@@ -1,26 +1,26 @@
 const models = require("../../models");
-const middleware = require("../../middlewares");
+// const middleware = require("../../middlewares");
 
-exports.userData = async(req, res)=>{
+exports.userData = async({email, password})=>{
     const loginCreds = {
-        email: req.body.email,
-        password: req.body.password
+        email: email,
+        password: password
     }
     const userInfo = await models.Users.findOne({"email":loginCreds.email}).exec();
-    if(!userInfo) return res.status(404).send('User not found.');
+    if(!userInfo) return ({ error: "User not found!" });
     if(userInfo.password!=loginCreds.password){
-        res
-        .status(400)
-        .json({ error: "Wrong Password Combination!" });
+        // return ({ error: "Wrong Password Combination!" });
+        return ({ error: "Wrong Password Combination!" });
     } else{
-        const accessToken = middleware.JWT.createTokens(loginCreds);
+        return userInfo;
+        // const accessToken = middleware.JWT.createTokens(loginCreds);
 
-        res.cookie("access-token", accessToken, {
-            maxAge: 2592000,
-            httpOnly: true,
-        });
+        // res.cookie("access-token", accessToken, {
+        //     maxAge: 2592000,
+        //     httpOnly: true,
+        // });
 
-        res.status(200).json(userInfo);
+        // res.status(200).json(userInfo);
     }
 
 }

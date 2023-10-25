@@ -1,17 +1,29 @@
 const express = require("express");
 const router = express.Router();
-const services = require("../services");
+const controllers = require("../controllers");
+const middleware = require("../middlewares");
+
 
 // ----------------------------- Sign Up ---------------------------//
 
-router.post('/newUser', services.newUser.newUser);
+router.post('/newUser', middleware.regDataValidation.validate, controllers.userController.newUserController);
 
-// ------------------ Supervisor Registration API ------------------//
+// ------------------------------------Project Upload API-----------------------------------------//
 
-router.post('/newSupervisor', services.newSupervisor.newSupervisor);
+router.post('/uploadWork', middleware.JWT.validateToken, controllers.userController.uploadWorkController);
 
-// ------------------- Student Registration API --------------------//
+//-------------------------Post a Review------------------------//
+router.post('/reviews', middleware.JWT.validateToken, controllers.userController.reviewController);
 
-router.post('/newStudent', services.newStudent.newStudent);
-
+// #####request body for uploadWork
+// {
+//     "title": "Project2",
+//     "supervisor": "ZMA",
+//     "team": "Mahnur Akther",
+//     "description": "Nothing",
+//     "files": ["Array1","Array1"],
+//     "email": "mahnur@gmail.com",
+//     "category": "Student",
+//     "institute": "XYZ University"
+//   }
 module.exports = router;

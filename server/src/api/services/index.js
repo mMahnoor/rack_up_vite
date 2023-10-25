@@ -1,6 +1,5 @@
 module.exports.newAdmin = require('./adminServices/newAdmin');
 module.exports.newSpace = require('./adminServices/newSpace');
-module.exports.newUser = require('./userServices/newUser');
 module.exports.newStudent = require('./userServices/newStudent');
 module.exports.newSupervisor = require('./userServices/newSupervisor');
 module.exports.userData = require('./commonServices/userData');

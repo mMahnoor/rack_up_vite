@@ -1,15 +1,12 @@
 const models = require("../../models");
 
-exports.newSpace = async(req, res)=>{
-    console.log(req.body);
+exports.newSpace = async({name, description})=>{
+    
     const newSpace = new models.Spaces({
-        name: req.body.name,
-        description: req.body.description,
-        // students: [[]],
-        // supervisors: {placeholder: null},
-        // projects: {placeholder: null}
+        name: name,
+        description: description,
     });
-    // console.log(newSpace.students)
+
     const createdSpace = await newSpace.save();
-    res.json(createdSpace);
+    return createdSpace;
 }

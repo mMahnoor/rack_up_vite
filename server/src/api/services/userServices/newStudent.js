@@ -1,35 +1,32 @@
 const models = require("../../models");
 
-exports.newStudent = async(req, res)=>{
-    console.log(req.body);
+exports.newStudent = async({category, role, name, email, student_id, phone, password, institute})=>{
+    
     const update = { 
-        name: req.body.name,
-        student_id: req.body.student_id,
-        email: req.body.email,
-        phone: req.body.phone,
-        password: req.body.password
-     };
+        name: name,
+        student_id: student_id,
+        email: email,
+        phone: phone,
+        password: password
+    };
     try {
         // Find a document based on the "institute" field
-        const spaceName = await models.Institutes.findOne({"name": req.body.institute}).exec();
+        const spaceName = await models.Institutes.findOne({"name": institute}).exec();
         
         if (!spaceName) {
           return res.status(404).send('Space not found');
         }
     
-        if (!spaceName.students) {
-            spaceName.students = {};
-          }
-        // Add the new object to the "students" array field
-        // spaceName.students = update;
-        spaceName.students[req.body.email] = update;
-
+        const newUser = new models.Users({category, role, name, email, student_id, phone, password, institute})
+        await newUser.save();
+        if(!spaceName.students) spaceName.students={};
+        spaceName.students[newUser._id] = update;
         spaceName.markModified('students');
+
         // Save the updated space document
         const newStudent = await spaceName.save();
 
-        console.log(spaceName)
-        return res.status(200).json(spaceName);
+        return newStudent;
       
     } catch (error) {
         console.error(error);

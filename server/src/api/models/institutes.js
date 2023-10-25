@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 
 const institutes = new schema({
+    category: String,
     name: String,
     email: String,
     address: String,

@@ -1,15 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const services = require("../services");
+const controller = require("../controllers");
+const middlewares = require("../middlewares");
+
 
 // ------------------------------------Admin Registration API-----------------------------------------//
 //define api for new institute/admin creation
-router.post('/newAdmin', services.newAdmin.newAdmin);
+router.post('/newAdmin', middlewares.regDataValidation.validate, controller.adminController.newAdminController);
 
 // ------------------------------------Space creation API-----------------------------------------//
 // define api for new space creation
-router.post('/newSpace', services.newSpace.newSpace);
+router.post('/newSpace', controller.adminController.newAdminController);
 
-router.get('/mySpace', services.mySpace.mySpace)
+router.get('/mySpace', controller.adminController.mySpaceController)
 
 module.exports = router;

@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const services = require("../services");
+// const services = require("../services");
+const controllers = require("../controllers");
 
-// ------------------------------------Admin Registration API-----------------------------------------//
-//define api for new institute/admin creation
-router.get('/allSpaces', services.allSpaces.allSpaces);
+// ------------------------------------common APIs-----------------------------------------//
+//define api for all spaces list
+router.get('/allSpaces', controllers.commonController.allSpacesController);
 
 //-------------------------- Sign In --------------------------//
-router.get("/userData", services.userData.userData);
+router.get("/userData", controllers.commonController.userDataController);
 
 
 module.exports = router;
