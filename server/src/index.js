@@ -24,7 +24,7 @@ app.use('/', routes.userRoutes);
 // app.use('/', routes.projectsRoutes);
 app.use('/', routes.commonRoutes);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
     console.log(`App listening to port ${PORT}`);
