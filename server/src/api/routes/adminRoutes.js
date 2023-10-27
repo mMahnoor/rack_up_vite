@@ -6,7 +6,7 @@ const middlewares = require("../middlewares");
 
 // ------------------------------------Admin Registration API-----------------------------------------//
 //define api for new institute/admin creation
-router.post('/newAdmin', middlewares.regDataValidation.validate, controller.adminController.newAdminController);
+router.post('/newAdmin', middlewares.regDataValidation.validate, middlewares.checkEmail.checkNewEmail, controller.adminController.newAdminController);
 
 // ------------------------------------Space creation API-----------------------------------------//
 // define api for new space creation

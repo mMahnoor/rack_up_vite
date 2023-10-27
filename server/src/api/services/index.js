@@ -7,4 +7,6 @@ module.exports.uploadWork = require('./userServices/uploadWork');
 module.exports.reviews = require('./userServices/reviews');
 module.exports.allSpaces = require('./commonServices/allSpaces');
 module.exports.mySpace = require('./adminServices/mySpace');
+module.exports.checkEmail = require("./commonServices/emailCheckService");
+module.exports.myProjectsService = require("./userServices/myProjects");
 

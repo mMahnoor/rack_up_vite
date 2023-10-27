@@ -50,3 +50,15 @@ exports.reviewController = async(req, res) => {
     }
 }
 
+exports.myProjectsController = async(req, res) => {
+    const email = req.body.email;
+    try{
+        const projects = await userServices.myProjectsService.myProjects({email});
+        console.log("projects:  "+projects);
+        if(projects.length===0) return res.status(404).send("No projects found!");
+        res.status(200).send(projects);
+    } catch(error) {
+        res.status(500).send(error);
+    }
+}
+

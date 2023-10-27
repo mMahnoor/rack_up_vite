@@ -6,7 +6,7 @@ const middleware = require("../middlewares");
 
 // ----------------------------- Sign Up ---------------------------//
 
-router.post('/newUser', middleware.regDataValidation.validate, controllers.userController.newUserController);
+router.post('/newUser', middleware.regDataValidation.validate, middleware.checkEmail.checkNewEmail, controllers.userController.newUserController);
 
 // ------------------------------------Project Upload API-----------------------------------------//
 
@@ -14,6 +14,8 @@ router.post('/uploadWork', middleware.JWT.validateToken, controllers.userControl
 
 //-------------------------Post a Review------------------------//
 router.post('/reviews', middleware.JWT.validateToken, controllers.userController.reviewController);
+
+router.get('/myProjects', middleware.JWT.validateToken, controllers.userController.myProjectsController);
 
 // #####request body for uploadWork
 // {
