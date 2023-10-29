@@ -2,7 +2,9 @@ const {sign, verify} = require('jsonwebtoken');
 require('dotenv').config();
 
 exports.createTokens = (loginCreds) => {
-    const accessToken = sign(loginCreds, process.env.SECRET_TOKEN);
+    const accessToken = sign(loginCreds, process.env.SECRET_TOKEN, {
+      expiresIn: 1 * 24 * 60 * 60 * 1000,
+    });
     return accessToken;
 };
 

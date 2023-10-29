@@ -21,7 +21,7 @@ exports.userDataController = async(req, res) => {
         const accessToken = middleware.JWT.createTokens({email: email, password: password});
 
         res.cookie("access-token", accessToken, {
-            maxAge: 2592000,
+            maxAge: 1 * 24 * 60 * 60,
             httpOnly: true,
         });
 

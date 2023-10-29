@@ -19,6 +19,9 @@ app.use(cookieParser());
 const connectDB = require("./config/connectMongo");
 connectDB();
 
+app.get('/', (req, res) => {
+    res.send('Welcome to Rack Up App. Explore what you can do with it!')
+})
 app.use('/', routes.adminRoutes);
 app.use('/', routes.userRoutes);
 // app.use('/', routes.projectsRoutes);
