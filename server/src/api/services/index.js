@@ -9,4 +9,5 @@ module.exports.allSpaces = require('./commonServices/allSpaces');
 module.exports.mySpace = require('./adminServices/mySpace');
 module.exports.checkEmail = require("./commonServices/emailCheckService");
 module.exports.myProjectsService = require("./userServices/myProjects");
+module.exports.mailing = require("./commonServices/sendEmail");
 

@@ -1,27 +1,31 @@
 const models = require("../../models");
 
-exports.newStudent = async({category, role, name, email, student_id, phone, password, institute})=>{
+exports.newStudent = async(studUpdate)=>{
     
     const update = { 
-        name: name,
-        student_id: student_id,
-        email: email,
-        phone: phone,
-        password: password
+        category: studUpdate.category,
+        role: studUpdate.role,
+        name: studUpdate.name,
+        email: studUpdate.email,
+        student_id: studUpdate.student_id,
+        phone: studUpdate.phone,
+        password: studUpdate.password,
+        institute: studUpdate.institute, 
+        isVerified: false
     };
     try {
         // Find a document based on the "institute" field
-        const spaceName = await models.Institutes.findOne({"name": institute}).exec();
+        const spaceName = await models.Institutes.findOne({"name": studUpdate.institute}).exec();
         
         if (!spaceName) {
-          return res.status(404).send('Space not found');
+          return false;
         }
     
-        const newUser = new models.Users({category, role, name, email, student_id, phone, password, institute})
+        const newUser = new models.Users(update)
         await newUser.save();
-        if(!spaceName.students) spaceName.students={};
-        spaceName.students[newUser._id] = update;
-        spaceName.markModified('students');
+
+        if(!spaceName.students) spaceName.students=[];
+        spaceName.students.push(newUser._id);
 
         // Save the updated space document
         const newStudent = await spaceName.save();
@@ -30,7 +34,7 @@ exports.newStudent = async({category, role, name, email, student_id, phone, pass
       
     } catch (error) {
         console.error(error);
-        return res.status(500).send('Internal Server Error');
+        return false;
     }
     
 }

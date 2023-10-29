@@ -1,25 +1,40 @@
-const userServices = require("../services")
+const userServices = require("../services");
+const models = require("../models");
+const crypto = require('crypto');
 
 exports.newUserController = async(req, res) => {
-    if(req.body.role=="Student"){
-        const {category, role, name, email, student_id, phone, password, institute} = req.body;
-        try{
-            const newUser = await userServices.newStudent.newStudent({category, role, name, email, student_id, phone, password, institute});
-            if(!newUser) return res.status(404).send("Space not found!");
+    try{
+        const newUser = (req.body.role=="Student") ? await userServices.newStudent.newStudent(req.body) 
+        : await userServices.newSupervisor.newSupervisor(req.body);
+        if(newUser) {
+            const token = new models.Tokens({
+                reqId: user.id,
+                token: crypto.randomBytes(16).toString("hex"),
+            });
+            let setToken = await token.save();
+            if(setToken){
+                //send email to the user
+                //with the function coming from the sendEmail.js service file
+                //message containing the user id and the token to help verify their email
+                userServices.mailing.sendingMail({
+                    from: "no-reply@example.com",
+                    to: `${req.body.email}`,
+                    subject: "Account Verification Link",
+                    text: `Hello, ${req.body.name} Please verify your email by
+                          clicking this link :
+                          http://localhost:8080/api/users/verify-email/${newUser._id}/${setToken.token} `,
+                });
+            } else {
+                return res.status(400).send("token not created");
+            }
             res.status(200).send(newUser);
-        } catch(error){
-            res.status(500).send(error);
+        } else {
+            res.status(409).send("Details are not correct");
         }
-    }
-    if(req.body.role=="Supervisor"){
-        const {category, role, name, email, phone, password, institute} = req.body;
-        try{
-            const newUser = await userServices.newSupervisor.newSupervisor({category, role, name, email, phone, password, institute});
-            if(!newUser) return res.status(404).send("Space not found!");
-            res.status(200).send(newUser);
-        } catch(error){
-            res.status(500).send(error);
-        }
+        
+        
+    } catch(error){
+        res.status(500).send(error);
     }
     
 }

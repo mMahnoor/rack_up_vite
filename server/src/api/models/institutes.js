@@ -9,14 +9,8 @@ const institutes = new schema({
     address: String,
     phone: String,
     password: String,
-    students: {
-        type: Object,
-        default: {placeholder: null}
-    },
-    supervisors: {
-        type: Object,
-        default: {placeholder: null}
-    },
+    students: Array,
+    supervisors: Array,
     projects: {
         type: Object,
         default: {placeholder: null}

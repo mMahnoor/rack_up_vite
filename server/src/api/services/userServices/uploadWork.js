@@ -7,20 +7,19 @@ exports.uploadWork = async({title, team, supervisor, description, files, email, 
     
     const spaceName = await models.Institutes.findOne({"name": institute}).exec();
     
-    if(!spaceName) return spaceName;
+    if(!spaceName) return false;
 
     if (!spaceName.projects) {
         spaceName.projects = {};
     }
+    const newProject = new models.Projects(update)
+    await newProject.save();
+
     if(role=="Student"){
-        const newProject = new models.Projects(update)
-        await newProject.save();
         if(!spaceName.projects.students) spaceName.projects.students={};
         spaceName.projects.students[email] = newProject._id;
     }
     else if(role=="Supervisor") {
-        const newProject = new models.Projects(update)
-        await newProject.save();
         if(!spaceName.projects.supervisors) spaceName.projects.supervisors={};
         spaceName.projects.supervisors[email] = newProject._id;
     }
