@@ -1,5 +1,6 @@
 const userServices = require("../services");
 const models = require("../models");
+const helper = require("../helpers");
 const crypto = require('crypto');
 
 exports.newUserController = async(req, res) => {
@@ -8,7 +9,7 @@ exports.newUserController = async(req, res) => {
         : await userServices.newSupervisor.newSupervisor(req.body);
         if(newUser) {
             const token = new models.Tokens({
-                reqId: user.id,
+                reqId: newUser._id,
                 token: crypto.randomBytes(16).toString("hex"),
             });
             let setToken = await token.save();
@@ -16,7 +17,7 @@ exports.newUserController = async(req, res) => {
                 //send email to the user
                 //with the function coming from the sendEmail.js service file
                 //message containing the user id and the token to help verify their email
-                userServices.mailing.sendingMail({
+                helper.mailing.sendingMail({
                     from: "no-reply@example.com",
                     to: `${req.body.email}`,
                     subject: "Account Verification Link",
