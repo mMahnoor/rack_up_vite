@@ -2,6 +2,7 @@ const userServices = require("../services");
 const models = require("../models");
 const helper = require("../helpers");
 const crypto = require('crypto');
+require('dotenv')
 
 exports.newUserController = async(req, res) => {
     try{
@@ -19,7 +20,7 @@ exports.newUserController = async(req, res) => {
                 //with the function coming from the sendEmail.js service file
                 //message containing the user id and the token to help verify their email
                 helper.mailing.sendingMail({
-                    from: "no-reply@example.com",
+                    from: `${process.env.EMAIL}`,
                     to: `${req.body.email}`,
                     subject: "Account Verification Link",
                     text: `Hello, ${req.body.name} Please verify your email by
