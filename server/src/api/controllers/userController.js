@@ -23,7 +23,7 @@ exports.newUserController = async(req, res) => {
                     subject: "Account Verification Link",
                     text: `Hello, ${req.body.name} Please verify your email by
                           clicking this link :
-                          http://localhost:8080/api/users/verify-email/${newUser._id}/${setToken.token} `,
+                          https://rackup-q3rm.onrender.com/api/common/email-verification/${newUser._id}/${setToken.token} `,
                 });
             } else {
                 return res.status(400).send("token not created");

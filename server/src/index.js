@@ -17,18 +17,17 @@ app.use(express.json());
 app.use(cookieParser());
 
 const connectDB = require("./config/connectMongo");
-connectDB();
 
 app.get('/', (req, res) => {
     res.send('Welcome to Rack Up App. Explore what you can do with it!')
 })
-app.use('/', routes.adminRoutes);
-app.use('/', routes.userRoutes);
-// app.use('/', routes.projectsRoutes);
-app.use('/', routes.commonRoutes);
+app.use('/api/admin', routes.adminRoutes);
+app.use('/api/users', routes.userRoutes);
+app.use('/api/common', routes.commonRoutes);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+app.listen(PORT, async() => {
+    await connectDB();
     console.log(`App listening to port ${PORT}`);
 })
