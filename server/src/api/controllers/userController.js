@@ -7,7 +7,7 @@ exports.newUserController = async(req, res) => {
     try{
         const newUser = (req.body.role=="Student") ? await userServices.newStudent.newStudent(req.body) 
         : await userServices.newSupervisor.newSupervisor(req.body);
-        console.log(newUser);
+        console.log("newUser:  "+newUser);
         if(newUser) {
             const token = new models.Tokens({
                 reqId: newUser._id,
