@@ -8,8 +8,7 @@ exports.newAdmin = async({category, name, email, address, phone, password})=>{
         email: email,
         address: address,
         phone: phone,
-        password: password,
-        isVerified: false
+        password: password
     });
     const Admin = await newInstitute.save();
     return Admin;

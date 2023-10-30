@@ -10,8 +10,7 @@ exports.newStudent = async(studUpdate)=>{
         student_id: studUpdate.student_id,
         phone: studUpdate.phone,
         password: studUpdate.password,
-        institute: studUpdate.institute, 
-        isVerified: false
+        institute: studUpdate.institute
     };
     try {
         // Find a document based on the "institute" field

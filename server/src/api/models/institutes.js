@@ -6,9 +6,13 @@ const institutes = new schema({
     category: String,
     name: String,
     email: String,
+    password: String,
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
     address: String,
     phone: String,
-    password: String,
     students: Array,
     supervisors: Array,
     projects: {

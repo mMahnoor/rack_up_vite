@@ -9,8 +9,7 @@ exports.newSupervisor = async(supUpdate)=>{
         email: supUpdate.email,
         phone: supUpdate.phone,
         password: supUpdate.password,
-        institute: supUpdate.institute, 
-        isVerified: false
+        institute: supUpdate.institute
     };
     try{
     

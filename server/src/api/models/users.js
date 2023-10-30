@@ -6,12 +6,14 @@ const users = new schema({
     category: String,
     role: String,
     name: String,
-    // student_id: String,
     email: String,
     phone: String,
     password: String,
     institute: String,
-    isVerified: Boolean
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
 }, {strict : false});
 
 const user_model = mongoose.model('Users', users);
