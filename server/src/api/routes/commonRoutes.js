@@ -7,10 +7,10 @@ const controllers = require("../controllers");
 router.get('/allSpaces', controllers.commonController.allSpacesController);
 
 //-------------------------- Sign In --------------------------//
-router.get("/userData", controllers.commonController.userDataController);
+router.get("/userData", middlewares.isVerified.check, controllers.commonController.userDataController);
 
 ///---------------------------Email Verification--------------------------///
-router.get('/email-verification/:id/:token', middlewares.isVerified.check, controllers.commonController.verify);
+router.get('/email-verification/:id/:token', controllers.commonController.verify);
 
 
 module.exports = router;
