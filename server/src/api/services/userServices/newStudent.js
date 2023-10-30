@@ -22,13 +22,13 @@ exports.newStudent = async(studUpdate)=>{
         }
     
         const newUser = new models.Users(update)
-        await newUser.save();
+        const newStudent = await newUser.save();
 
         if(!spaceName.students) spaceName.students=[];
         spaceName.students.push(newUser._id);
 
         // Save the updated space document
-        const newStudent = await spaceName.save();
+        await spaceName.save();
 
         return newStudent;
       
