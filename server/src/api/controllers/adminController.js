@@ -12,13 +12,13 @@ exports.newAdminController = async(req, res) => {
                 reqId: newAdmin._id,
                 token: crypto.randomBytes(16).toString("hex"),
             });
-            let setToken = await token.save();
+            const setToken = await token.save();
             if(setToken){
                 //send email to the admin
                 //with the function coming from the sendEmail.js service file
                 //message containing the user id and the token to help verify their email
                 helper.mailing.sendingMail({
-                    from: "no-reply@example.com",
+                    from: "noreply@gmail.com",
                     to: `${email}`,
                     subject: "Account Verification Link",
                     text: `Hello, ${name} Please verify your email by

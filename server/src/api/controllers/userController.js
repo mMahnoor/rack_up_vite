@@ -26,7 +26,7 @@ exports.newUserController = async(req, res) => {
                     text: `Hello, ${req.body.name}! Please verify your email by clicking the following link :
                           https://rackup-q3rm.onrender.com/api/common/email-verification/${newUser._id}/${setToken.token} `,
                 });
-                console.log("transport: "+transport);
+    
                 res.status(200).send("Verification link is sent. Please verify your email.")
             } else {
                 return res.status(400).send("token not created");
