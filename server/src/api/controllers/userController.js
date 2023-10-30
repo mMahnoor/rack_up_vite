@@ -14,23 +14,24 @@ exports.newUserController = async(req, res) => {
                 reqId: newUser._id,
                 token: crypto.randomBytes(16).toString("hex"),
             });
-            let setToken = await token.save();
+            const setToken = await token.save();
             if(setToken){
                 //send email to the user
                 //with the function coming from the sendEmail.js service file
                 //message containing the user id and the token to help verify their email
-                helper.mailing.sendingMail({
-                    from: `${process.env.EMAIL}`,
-                    to: `${req.body.email}`,
+                const transport = await helper.mailing.sendingMail({
+                    from: "rackup",
+                    to: "mahnurakther@gmail.com",
                     subject: "Account Verification Link",
-                    text: `Hello, ${req.body.name} Please verify your email by
-                          clicking this link :
+                    text: `Hello, ${req.body.name}! Please verify your email by clicking the following link :
                           https://rackup-q3rm.onrender.com/api/common/email-verification/${newUser._id}/${setToken.token} `,
                 });
+                // console.log("transport: "+transport);
+                res.status(200).send("Verification link is sent. Please verify your email.")
             } else {
                 return res.status(400).send("token not created");
             }
-            res.status(200).send(newUser);
+            // res.status(200).send(newUser);
         } else {
             res.status(409).send("Details are not correct");
         }

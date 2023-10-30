@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-require('dotenv');
+require('dotenv').config();
 
 exports.sendingMail = async({from, to, subject, text}) =>{
 
@@ -17,12 +17,14 @@ exports.sendingMail = async({from, to, subject, text}) =>{
                 pass: process.env.EMAIL_PASSWORD,
             },
         });
+
+        // const transport = await Transporter.sendMail(mailOptions);
     
         //return the Transporter variable which has the sendMail method to send the mail
         //which is within the mailOptions
-        return await Transporter.sendMail(mailOptions) 
+        return await Transporter.sendMail(mailOptions);
     } catch (error) {
-        return ({error: true, message: error})
+        return false
     }
       
   }

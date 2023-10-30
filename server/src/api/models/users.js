@@ -10,7 +10,8 @@ const users = new schema({
     email: String,
     phone: String,
     password: String,
-    institute: String
+    institute: String,
+    isVerified: Boolean
 }, {strict : false});
 
 const user_model = mongoose.model('Users', users);

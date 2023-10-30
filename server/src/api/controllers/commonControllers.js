@@ -38,28 +38,24 @@ exports.verify = async(req, res) => {
         const token = req.params.token;
     
         //find user by token using the where clause
-        const usertoken = await models.Tokens.findOne({
-          token,
-          where: {
-            reqId: req.params.id,
-          },
-        });
+        const usertoken = await models.Tokens.findOne({"reqId": req.params.id}).exec();
+        console.log("usertoken: "+usertoken)
         //if token doesnt exist, send status of 400
-        if (!usertoken) {
+        if (!usertoken.token===token) {
             return res.status(400).send({
-                msg: "Your verification link may have expired. Please click on resend for verify your Email.",
+                msg: "Your verification link may have expired. Please click on resend for verifying your Email.",
             });
   
         //if token exist, find the user with that token
         } else {
-            const user = await models.Users.findOne({ where: { _id: req.params.id } });
+            const user = await models.Users.findOne({"_id": req.params.id }).exec();
             if (!user) {
-            console.log(user);
-    
-            return res.status(401).send({
-                msg: "We were unable to find a user for this verification. Please SignUp!",
-            });
-    
+                console.log(user);
+        
+                return res.status(401).send({
+                    msg: "We were unable to find a user for this verification. Please SignUp!",
+                });
+        
             //if user is already verified, tell the user to login
             } else if (user.isVerified) {
             return res
@@ -68,13 +64,10 @@ exports.verify = async(req, res) => {
     
             //if user is not verified, change the verified to true by updating the field
             } else {
-            const updated = await models.Users.update(
+            const updated = await models.Users.updateOne(
+                { _id: usertoken.reqId },
                 { isVerified: true },
-                {
-                where: {
-                    id: usertoken.reqId,
-                },
-                }
+                { new: true }
             );
             console.log(updated);
     
