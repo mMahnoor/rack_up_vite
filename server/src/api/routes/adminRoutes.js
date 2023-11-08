@@ -10,8 +10,14 @@ router.post('/newAdmin', middlewares.regDataValidation.validate, middlewares.che
 
 // ------------------------------------Space creation API-----------------------------------------//
 // define api for new space creation
-router.post('/newSpace', controller.adminController.newAdminController);
+router.post('/newSpace', controller.adminController.newAdmin);
 
-router.get('/mySpace', controller.adminController.mySpaceController)
+router.get('/mySpace', controller.adminController.mySpace);
+
+// router.get('/users/update', );
+
+router.get('/users/delete', controller.adminController.deleteUser);
+
+// router.get('/mySpace', controller.adminController.mySpaceController)
 
 module.exports = router;

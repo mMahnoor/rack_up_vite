@@ -3,7 +3,7 @@ const models = require("../models");
 const helper = require("../helpers");
 const crypto = require('crypto');
 
-exports.newAdminController = async(req, res) => {
+exports.newAdmin = async(req, res) => {
     const {name, email, address, phone, password} = req.body;
     try{
         const newAdmin = await adminServices.newAdmin.newAdmin({name, email, address, phone, password});
@@ -38,7 +38,7 @@ exports.newAdminController = async(req, res) => {
     }
 }
 
-exports.mySpaceController = async(req, res) => {
+exports.mySpace = async(req, res) => {
     const {name} = req.body;
     try{
         const mySpace = await adminServices.mySpace.mySpace({name});
@@ -49,12 +49,38 @@ exports.mySpaceController = async(req, res) => {
     }
 }
 
-exports.newSpaceController = async(req, res) => {
+exports.newSpace= async(req, res) => {
     const {name, description} = req.body;
     try{
-        const newSpace = await adminServices.newSpace.newSpace({name, description});
-        res.status(200).send(newSpace);
+        const space = await adminServices.newSpace.newSpace({name, description});
+        res.status(200).send(space);
     } catch(error){
         res.status(500).send(error);
     }
+}
+
+exports.updateUser = async(req, res) => {
+
+
+}
+
+exports.deleteUser = async(req, res) => {
+    const docs = req.docIdsToDelete;
+
+    const condition = { _id: { $in: docs } };
+
+    try{
+        const result = await models.Users.deleteMany(condition);
+
+        if (result.deletedCount > 0) {
+            res.status(200).json({ message: 'Documents deleted successfully' });
+        } else {
+            res.status(404).json({ message: 'No matching documents found' });
+        }
+    } catch(error) {
+        res.status(500).json({ message: 'Error deleting documents', error: err });
+  
+    }
+    
+    
 }
