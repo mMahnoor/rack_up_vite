@@ -6,8 +6,8 @@ const crypto = require('crypto');
 exports.newAdmin = async(req, res) => {
     const {name, email, address, phone, password} = req.body;
     try{
-        const newAdmin = await adminServices.newAdmin.newAdmin({name, email, address, phone, password});
-        if(newAdmin) {
+        const new_admin = await adminServices.newAdmin.newAdmin({name, email, address, phone, password});
+        if(new_admin) {
             const token = new models.Tokens({
                 reqId: newAdmin._id,
                 token: crypto.randomBytes(16).toString("hex"),
@@ -41,9 +41,9 @@ exports.newAdmin = async(req, res) => {
 exports.mySpace = async(req, res) => {
     const {name} = req.body;
     try{
-        const mySpace = await adminServices.mySpace.mySpace({name});
-        if(!mySpace) return res.status(404).send("Space not found!");
-        res.status(200).send(mySpace);
+        const my_space = await adminServices.mySpace.mySpace({name});
+        if(!my_space) return res.status(404).send("Space not found!");
+        res.status(200).send(my_space);
     } catch(error){
         res.status(500).send(error);
     }
@@ -59,10 +59,10 @@ exports.newSpace= async(req, res) => {
     }
 }
 
-exports.updateUser = async(req, res) => {
+// exports.updateUser = async(req, res) => {
 
 
-}
+// }
 
 exports.deleteUser = async(req, res) => {
     const docs = req.docIdsToDelete;
