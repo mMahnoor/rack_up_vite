@@ -65,14 +65,15 @@ exports.newSpace= async(req, res) => {
 // }
 
 exports.deleteUser = async(req, res) => {
-    const docs = req.docIdsToDelete;
+    // const docs = req.docIdsToDelete;
 
-    const condition = { _id: { $in: docs } };
+    // const condition = { _id: docs  };
 
     try{
-        const result = await models.Users.deleteMany(condition);
+        const result = await models.Users.findByIdAndDelete(req.params.docId);
+        console.log("result: " + result)
 
-        if (result.deletedCount > 0) {
+        if (result) {
             res.status(200).json({ message: 'Documents deleted successfully' });
         } else {
             res.status(404).json({ message: 'No matching documents found' });

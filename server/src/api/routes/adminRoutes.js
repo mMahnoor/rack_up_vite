@@ -16,7 +16,7 @@ router.get('/mySpace', controller.adminController.mySpace);
 
 // router.get('/users/update', );
 
-router.delete('/users/delete', controller.adminController.deleteUser);
+router.delete('/delete-user/:docId', controller.adminController.deleteUser);
 
 // router.get('/mySpace', controller.adminController.mySpaceController)
 
